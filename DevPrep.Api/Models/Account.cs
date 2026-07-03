@@ -1,4 +1,6 @@
-﻿namespace DevPrep.Api.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace DevPrep.Api.Models
 {
     public class Account
     {
@@ -8,6 +10,7 @@
 
         public string AccountType { get; set; } = string.Empty;
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Balance { get; set; }
 
         public bool IsActive { get; set; }

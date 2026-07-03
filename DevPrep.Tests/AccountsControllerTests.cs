@@ -3,15 +3,34 @@ using DevPrep.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Xunit;
+using DevPrep.Api.Repositories;
 
 namespace DevPrep.Tests
 {
     public class AccountsControllerTests
     {
+        private class FakeAccountRepository : IAccountRepository
+        {
+            public List<Account> GetAccounts()
+            {
+                return new List<Account>
+        {
+            new Account
+            {
+                Id = 1,
+                AccountNumber = "100001",
+                AccountType = "Checking",
+                Balance = 1250.75m,
+                IsActive = true
+            }
+        };
+            }
+        }
         [Fact]
         public void GetAccounts_ReturnsOkResult_WithAccounts()
         {
-            AccountsController controller = new();
+            IAccountRepository repository = new FakeAccountRepository();
+            AccountsController controller = new(repository);
 
             ActionResult<List<Account>> result = controller.GetAccounts();
 

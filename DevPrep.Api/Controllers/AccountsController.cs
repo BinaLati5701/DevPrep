@@ -1,4 +1,5 @@
 ﻿using DevPrep.Api.Models;
+using DevPrep.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevPrep.Api.Controllers
@@ -7,20 +8,17 @@ namespace DevPrep.Api.Controllers
     [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
+        private readonly IAccountRepository _repository;
+
+        public AccountsController(IAccountRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
         public ActionResult<List<Account>> GetAccounts()
         {
-            List<Account> accounts = new()
-            {
-                new Account
-                {
-                    Id = 1,
-                    AccountNumber = "100001",
-                    AccountType = "Checking",
-                    Balance = 1250.75m,
-                    IsActive = true
-                }
-            };
+            List<Account> accounts = _repository.GetAccounts();
 
             return Ok(accounts);
         }
